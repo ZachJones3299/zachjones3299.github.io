@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Zach Jones</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .terminal {
+            background-color: #262626;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prompt {
+            color: #608b4e;
+            margin-bottom: 1rem;
+        }
+        
+        .sql {
+            color: #569cd6;
+        }
+        
+        .comment {
+            color: #608b4e;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background-color: #1e1e1e;
+        }
+        
+        th, td {
+            padding: 0.5rem;
+            text-align: left;
+            border: 1px solid #404040;
+        }
+        
+        th {
+            background-color: #2d2d2d;
+            color: #9cdcfe;
+        }
+        
+        .keyword {
+            color: #569cd6;
+        }
+        
+        .string {
+            color: #ce9178;
+        }
+        
+        .number {
+            color: #b5cea8;
+        }
+        
+        .return {
+            color: #4ec9b0;
+            margin-top: 1rem;
+        }
+
+        .link {
+            color: #9cdcfe;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .terminal {
+                padding: 1rem;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="prompt">
+            -- Welcome to my portfolio! Feel free to explore! --
+        </div>
+
+        <div class="sql">
+           about_me
+        </div>
+
+        <table>
+            <tr>
+                <th>name</th>
+                <th>title</th>
+                <th>location</th>
+                <th>email</th>
+                <th>resume</th>
+            </tr>
+            <tr>
+                <td>Zach Jones</td>
+                <td>Digital Marketing & SEO Specialist</td>
+                <td>Ft. Worth, TX</td>
+                <td><a href="mailto:zachjones3299@gmail.com" class="link">zachjones3299@gmail.com</a></td>
+                <td><a href="Zach_Jones_Resume.pdf" class="link" target="_blank" rel="noopener noreferrer">View Resume →</a></td>
+            </tr>
+        </table>
+
+        <div class="sql">
+            wordpress_projects
+        </div>
+
+        <table>
+            <tr>
+                <th>project_name</th>
+                <th>description</th>
+                <th>technologies</th>
+                <th>url</th>
+            </tr>
+            <tr>
+                <td>SixRock Ammo</td>
+                <td>Built custom WordPress e-commerce solution with WooCommerce integration and in depth SEO analytics</td>
+                <td>WordPress, WooCommerce, Custom PHP, Analytics Integration</td>
+                <td><a href="https://sixrockammo.com/" class="link">sixrockammo</a></td>
+            </tr>
+            <tr>
+                <td>Gitter Vein</td>
+                <td>Developed responsive website with online booking system and email marketing integrations</td>
+                <td>WordPress, Mailchimp, Analytics Integration</td>
+                <td><a href="https://gittervein.com/" class="link">gittervein</a></td>
+            </tr>
+            <tr>
+                <td>Legendary Pools</td>
+                <td>Developed responsive website with online booking system and custom marketing materials</td>
+                <td>WordPress, Custom Request Form, Analytics Integration</td>
+                <td><a href="https://legendarypoolsbr.com/" class="link">legendarypoolsbr</a></td>
+            </tr>
+            <tr>
+                <td>Fight Supply Shop</td>
+                <td>In the process of increasing site speed, image chaching, and analytics integration</td>
+                <td>WordPress, Email Marketing Integration, Analytics Integration, Multi-Vendor Site</td>
+                <td><a href="https://shop.fightsupply.com/" class="link">fightsupllyshop</a></td>
+            </tr>
+        </table>
+
+        <div class="sql">
+            seo_projects
+        </div>
+
+        <table>
+            <tr>
+                <th>project_name</th>
+                <th>strategy</th>
+                <th>improvement</th>
+            </tr>
+            <tr>
+                <td>Street Jitsu Justin</td>
+                <td>Local SEO optimization, content strategy, technical improvements, social media outline</td>
+                <td>22% organic traffic increase</td>
+            </tr>
+            <tr>
+                <td>SixRock Ammo</td>
+                <td>Product page optimization, internal linking, speed optimization</td>
+                <td>160% Sales Increase over 6 months</td>
+            </tr>
+            <tr>
+                <td>80% Arms</td>
+                <td>Product page optimization, blog content creation, SEO imiplention</td>
+                <td>7% User Retention Increase after SEO implementation </td>
+            </tr>
+            <tr>
+                <td>Fight Supply Shop</td>
+                <td>WORK IN PROGRESS</td>
+                <td>WORK IN PROGRESS</td>
+            </tr>
+        </table>
+
+        <div class="sql">
+            digital_optimizaiton_skills
+        </div>
+
+        <table>
+            <tr>
+                <th>skill</th>
+                <th>proficiency</th>
+            </tr>
+            <tr>
+                <td>E-Commerce Management</td>
+                <td>9.0</td>
+            </tr>
+            <tr>
+                <td>WordPress Development</td>
+                <td>7.5</td>
+            </tr>
+            <tr>
+                <td>SEO Optimization</td>
+                <td>9.0</td>
+            </tr>
+            <tr>
+                <td>Content Strategy</td>
+                <td>8.5</td>
+            </tr>
+            <tr>
+                <td>Digital Marketing</td>
+                <td>8.5</td>
+            </tr>
+            <tr>
+                <td>Technical Writing</td>
+                <td>9.0</td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+</body>
+</html>
