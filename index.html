@@ -3,242 +3,921 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Zach Jones</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <title>Zach Jones | Digital Marketing Strategist & Web Developer</title>
+    <meta name="description" content="Portfolio of Zach Jones — Digital Marketing Strategist specializing in SEO, custom web development, and digital campaign execution.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-deep: #0a0e17;
+            --glass-bg: rgba(16, 22, 36, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.04);
+            --glass-shadow: rgba(0, 0, 0, 0.4);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.12);
+            --green: #4ade80;
+            --green-dim: rgba(74, 222, 128, 0.1);
+            --green-terminal: #33ff33;
+            --orange: #fb923c;
+            --purple: #c084fc;
+            --red: #f87171;
+            --cyan: #67e8f9;
+            --border-accent: rgba(88, 166, 255, 0.3);
+        }
+
         body {
-            font-family: 'Consolas', 'Monaco', monospace;
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            line-height: 1.6;
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* === ANIMATED BACKGROUND === */
+        .bg-canvas {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-canvas::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 60% at 10% 20%, rgba(88, 166, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 85% 70%, rgba(192, 132, 252, 0.07) 0%, transparent 55%),
+                radial-gradient(ellipse 70% 50% at 50% 90%, rgba(74, 222, 128, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 40% at 70% 10%, rgba(251, 146, 60, 0.04) 0%, transparent 50%);
+            animation: nebulaDrift 25s ease-in-out infinite alternate;
+        }
+
+        .bg-canvas::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(255,255,255,0.03) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        @keyframes nebulaDrift {
+            0% { transform: scale(1) translate(0, 0); }
+            33% { transform: scale(1.05) translate(-20px, 15px); }
+            66% { transform: scale(0.98) translate(15px, -10px); }
+            100% { transform: scale(1.03) translate(-10px, 20px); }
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(88,166,255,0.3), transparent 70%);
+            top: -100px; left: -100px;
+            animation-duration: 22s;
+        }
+
+        .orb-2 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(192,132,252,0.25), transparent 70%);
+            bottom: -50px; right: -80px;
+            animation-duration: 28s;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(74,222,128,0.2), transparent 70%);
+            top: 40%; left: 60%;
+            animation-duration: 24s;
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 40px) scale(0.95); }
+            75% { transform: translate(30px, 20px) scale(1.05); }
+        }
+
+        /* === BOOT SCREEN (typing overlay) === */
+        .boot-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .boot-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .boot-terminal {
             padding: 2rem;
-            max-width: 1200px;
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .typed-line {
+            display: block;
+            font-size: 1.05rem;
+            line-height: 2.2;
+            visibility: hidden;
+            white-space: nowrap;
+        }
+
+        .typed-line.active, .typed-line.done {
+            visibility: visible;
+        }
+
+        .typed-line .prompt-char {
+            color: var(--green-terminal);
+            margin-right: 0.5rem;
+            text-shadow: 0 0 10px rgba(51, 255, 51, 0.5);
+        }
+
+        .typed-line .typed-text {
+            color: var(--green-terminal);
+            text-shadow: 0 0 8px rgba(51, 255, 51, 0.3);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.1em;
+            background: var(--green-terminal);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: cursorBlink 0.7s step-end infinite;
+            box-shadow: 0 0 8px rgba(51, 255, 51, 0.6);
+        }
+
+        @keyframes cursorBlink {
+            50% { opacity: 0; }
+        }
+
+        /* === MAIN CONTENT (hidden until boot finishes) === */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        
-        .terminal {
-            background-color: #262626;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        .container.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
-        
-        .prompt {
-            color: #608b4e;
-            margin-bottom: 1rem;
+
+        /* === GLASS PANELS === */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 32px var(--glass-shadow),
+                inset 0 1px 0 var(--glass-highlight);
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        
-        .sql {
-            color: #569cd6;
+
+        .glass:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 12px 40px var(--glass-shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
         }
-        
+
+        /* === HEADER === */
+        .header {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .header.pop-in {
+            animation: popIn 0.6s ease-out forwards;
+        }
+
+        .header-bar {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: var(--red); box-shadow: 0 0 6px rgba(248,113,113,0.4); }
+        .dot.orange { background: var(--orange); box-shadow: 0 0 6px rgba(251,146,60,0.4); }
+        .dot.green { background: var(--green); box-shadow: 0 0 6px rgba(74,222,128,0.4); }
+
+        .header-bar span {
+            margin-left: auto;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .header-content {
+            padding: 2.5rem 2rem;
+        }
+
+        .header-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+
+        .header-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0.4rem;
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .header-meta a, .header-meta span {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .header-meta a:hover { color: var(--accent); }
+
+        .resume-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(88, 166, 255, 0.08);
+            border: 1px solid var(--border-accent);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.25s;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .resume-btn:hover {
+            background: rgba(88, 166, 255, 0.15);
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* === PANELS === */
+        .panel {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .panel.pop-in {
+            animation: popIn 0.6s ease-out forwards;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-indicator {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+        }
+
+        .panel-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .panel-count {
+            margin-left: auto;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            padding: 0.2rem 0.65rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-body { padding: 1.5rem; }
+
         .comment {
-            color: #608b4e;
+            color: var(--green);
+            font-size: 0.78rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
         }
-        
+
+        /* === TABLES === */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1rem 0;
-            background-color: #1e1e1e;
+            font-size: 0.83rem;
         }
-        
-        th, td {
-            padding: 0.5rem;
-            text-align: left;
-            border: 1px solid #404040;
-        }
-        
+
         th {
-            background-color: #2d2d2d;
-            color: #9cdcfe;
-        }
-        
-        .keyword {
-            color: #569cd6;
-        }
-        
-        .string {
-            color: #ce9178;
-        }
-        
-        .number {
-            color: #b5cea8;
-        }
-        
-        .return {
-            color: #4ec9b0;
-            margin-top: 1rem;
+            text-align: left;
+            padding: 0.6rem 0.75rem;
+            color: var(--purple);
+            font-weight: 500;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0, 0, 0, 0.25);
+            border-bottom: 1px solid var(--border-accent);
         }
 
-        .link {
-            color: #9cdcfe;
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: var(--text-primary);
+            vertical-align: top;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(88, 166, 255, 0.05); transition: background 0.2s; }
+
+        td a {
+            color: var(--accent);
             text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
         }
 
-        .link:hover {
-            text-decoration: underline;
+        td a:hover { border-bottom-color: var(--accent); }
+
+        /* === PROJECT CARDS === */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
 
+        .project-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: rgba(88, 166, 255, 0.2);
+            box-shadow: 0 4px 24px rgba(88, 166, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .project-card-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+
+        .project-card-desc {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+        .tag {
+            font-size: 0.68rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tag.dev { background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.2); }
+        .tag.seo { background: rgba(74,222,128,0.08); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+        .tag.content { background: rgba(192,132,252,0.08); color: var(--purple); border: 1px solid rgba(192,132,252,0.2); }
+        .tag.campaign { background: rgba(251,146,60,0.08); color: var(--orange); border: 1px solid rgba(251,146,60,0.2); }
+
+        /* === IMPACT METRICS === */
+        .impact-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .impact-stat {
+            text-align: center;
+            padding: 1.25rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .impact-stat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .impact-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--green);
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+        }
+
+        .impact-label {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* === SKILLS GRID === */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .skill-group-title {
+            font-size: 0.73rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--orange);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            margin-top: 0.5rem;
+            grid-column: 1 / -1;
+        }
+
+        .skill-group-title:first-child { margin-top: 0; }
+
+        .skill-item {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            border-left: 3px solid var(--border-accent);
+            transition: all 0.2s;
+        }
+
+        .skill-item:hover {
+            border-color: rgba(255,255,255,0.1);
+            border-left-color: var(--accent);
+            background: rgba(88, 166, 255, 0.05);
+            transform: translateX(3px);
+        }
+
+        .skill-item.green-border { border-left-color: var(--green); }
+        .skill-item.green-border:hover { border-left-color: var(--green); }
+        .skill-item.purple-border { border-left-color: var(--purple); }
+        .skill-item.purple-border:hover { border-left-color: var(--purple); }
+        .skill-item.orange-border { border-left-color: var(--orange); }
+        .skill-item.orange-border:hover { border-left-color: var(--orange); }
+
+        /* === FOOTER === */
+        .footer {
+            text-align: center;
+            padding: 2rem 0 1rem;
+            font-size: 0.73rem;
+            color: var(--text-muted);
+        }
+
+        /* === RESPONSIVE === */
         @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-            
-            .terminal {
-                padding: 1rem;
-            }
-            
-            table {
-                display: block;
-                overflow-x: auto;
-            }
+            .container { padding: 1rem; }
+            .header-content { padding: 2rem 1.25rem; }
+            .header-name { font-size: 1.4rem; }
+            .header-meta { gap: 1rem; }
+            .panel-body { padding: 1rem; }
+            .impact-row { grid-template-columns: 1fr 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+            table { display: block; overflow-x: auto; white-space: nowrap; }
+            .glass { border-radius: 12px; }
+            .boot-terminal { padding: 1.5rem; }
+            .typed-line { font-size: 0.85rem; }
+        }
+
+        @media (max-width: 480px) {
+            .header-name { font-size: 1.2rem; }
+            .impact-row { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .typed-line { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
-    <div class="terminal">
-        <div class="prompt">
-            -- Welcome to my portfolio! Feel free to explore! --
-        </div>
 
-        <div class="sql">
-           about_me
-        </div>
-
-        <table>
-            <tr>
-                <th>name</th>
-                <th>title</th>
-                <th>location</th>
-                <th>email</th>
-                <th>resume</th>
-            </tr>
-            <tr>
-                <td>Zach Jones</td>
-                <td>Digital Marketing & SEO Specialist</td>
-                <td>Ft. Worth, TX</td>
-                <td><a href="mailto:zachjones3299@gmail.com" class="link">zachjones3299@gmail.com</a></td>
-                <td><a href="Zach_Jones_Resume.pdf" class="link" target="_blank" rel="noopener noreferrer">View Resume →</a></td>
-            </tr>
-        </table>
-
-        <div class="sql">
-            wordpress_projects
-        </div>
-
-        <table>
-            <tr>
-                <th>project_name</th>
-                <th>description</th>
-                <th>technologies</th>
-                <th>url</th>
-            </tr>
-            <tr>
-                <td>SixRock Ammo</td>
-                <td>Built custom WordPress e-commerce solution with WooCommerce integration and in depth SEO analytics</td>
-                <td>WordPress, WooCommerce, Custom PHP, Analytics Integration</td>
-                <td><a href="https://sixrockammo.com/" class="link">sixrockammo</a></td>
-            </tr>
-            <tr>
-                <td>Gitter Vein</td>
-                <td>Developed responsive website with online booking system and email marketing integrations</td>
-                <td>WordPress, Mailchimp, Analytics Integration</td>
-                <td><a href="https://gittervein.com/" class="link">gittervein</a></td>
-            </tr>
-            <tr>
-                <td>Legendary Pools</td>
-                <td>Created a WordPress platform with advanced SEO optimization and custom lead generation forms</td>
-                <td>WordPress, Custom Request Form, Analytics Integration</td>
-                <td><a href="https://legendarypoolsbr.com/" class="link">legendarypoolsbr</a></td>
-            </tr>
-            <tr>
-                <td>PureDerm NOLA</td>
-                <td>Built scalable WordPress solution featuring custom event calendar and automated booking functionality</td>
-                <td>WordPress, Custom Request Form, Booking Features</td>
-                <td><a href="https://puredermnola.com/" class="link">puredermnola</a></td>
-            </tr>
-             <tr>
-                <td>Max Blakesberg</td>
-                <td>Crafted custom WordPress platform with multimedia gallery and contact system</td>
-                <td>WordPress, Custom Purchase Form, Beautiful Gallery Integration</td>
-                <td><a href="https://maxblakesberg.com/" class="link">maxblakesberg</a></td>
-            </tr>
-            <tr>
-                <td>Fight Supply Shop</td>
-                <td>In the process of increasing site speed, image chaching, and analytics integration</td>
-                <td>WordPress, Email Marketing Integration, Analytics Integration, Multi-Vendor Site</td>
-                <td><a href="https://shop.fightsupply.com/" class="link">fightsupplyshop</a></td>
-            </tr>
-        </table>
-
-        <div class="sql">
-            seo_projects
-        </div>
-
-        <table>
-            <tr>
-                <th>project_name</th>
-                <th>strategy</th>
-                <th>improvement</th>
-            </tr>
-            <tr>
-                <td>Street Jitsu Justin</td>
-                <td>Local SEO optimization, content strategy, technical improvements, social media outline</td>
-                <td>22% organic traffic increase</td>
-            </tr>
-            <tr>
-                <td>SixRock Ammo</td>
-                <td>Product page optimization, internal linking, speed optimization</td>
-                <td>160% Sales Increase over 6 months</td>
-            </tr>
-            <tr>
-                <td>80% Arms</td>
-                <td>Product page optimization, blog content creation, SEO imiplention</td>
-                <td>7% User Retention Increase after SEO implementation </td>
-            </tr>
-            <tr>
-                <td>Fight Supply Shop</td>
-                <td>WORK IN PROGRESS</td>
-                <td>WORK IN PROGRESS</td>
-            </tr>
-        </table>
-
-        <div class="sql">
-            digital_optimization_skills
-        </div>
-
-        <table>
-            <tr>
-                <th>skill</th>
-                <th>proficiency</th>
-            </tr>
-            <tr>
-                <td>E-Commerce Management</td>
-                <td>9.0</td>
-            </tr>
-            <tr>
-                <td>WordPress Development</td>
-                <td>8.5</td>
-            </tr>
-            <tr>
-                <td>SEO Optimization</td>
-                <td>9.0</td>
-            </tr>
-            <tr>
-                <td>Content Strategy</td>
-                <td>8.5</td>
-            </tr>
-            <tr>
-                <td>Digital Marketing</td>
-                <td>8.5</td>
-            </tr>
-            <tr>
-                <td>Technical Writing</td>
-                <td>9.0</td>
-            </tr>
-        </table>
+    <!-- Background -->
+    <div class="bg-canvas">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+    <!-- BOOT SCREEN — full screen typing, nothing else visible -->
+    <div class="boot-screen" id="bootScreen">
+        <div class="boot-terminal">
+            <span class="typed-line" data-text="Initializing portfolio..."><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+            <span class="typed-line" data-text="Zach Jones"><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+            <span class="typed-line" data-text="Digital Marketing Strategist & Web Developer"><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+            <span class="typed-line" data-text="Fort Worth, TX"><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+            <span class="typed-line" data-text="zachjones3299@gmail.com"><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+            <span class="typed-line" data-text="Loading assets..."><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+            <span class="typed-line" data-text="Ready."><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT — hidden until boot completes -->
+    <div class="container" id="mainContent">
+
+        <!-- HEADER -->
+        <div class="header glass" id="header">
+            <div class="header-bar">
+                <div class="dot red"></div>
+                <div class="dot orange"></div>
+                <div class="dot green"></div>
+                <span>zljones.com &mdash; portfolio</span>
+            </div>
+            <div class="header-content">
+                <div class="header-name">Zach Jones</div>
+                <div class="header-title">Digital Marketing Strategist &amp; Web Developer</div>
+                <div class="header-meta">
+                    <span>&#x1F4CD; Fort Worth, TX</span>
+                    <a href="mailto:zachjones3299@gmail.com">&#x2709;&#xFE0F; zachjones3299@gmail.com</a>
+                    <a href="tel:9406000814">&#x260E;&#xFE0F; (940) 600-0814</a>
+                </div>
+                <a href="Zach_Jones_Resume_2026.pdf" class="resume-btn" target="_blank" rel="noopener noreferrer">&#x2193; Download Resume</a>
+            </div>
+        </div>
+
+        <!-- IMPACT METRICS -->
+        <div class="panel glass" id="panel-0">
+            <div class="panel-header">
+                <div class="panel-indicator"></div>
+                <span class="panel-label">Impact at a Glance</span>
+            </div>
+            <div class="panel-body">
+                <div class="impact-row">
+                    <div class="impact-stat">
+                        <div class="impact-number">5+</div>
+                        <div class="impact-label">Years Digital Marketing</div>
+                    </div>
+                    <div class="impact-stat">
+                        <div class="impact-number">50+</div>
+                        <div class="impact-label">Pages Built &amp; Optimized</div>
+                    </div>
+                    <div class="impact-stat">
+                        <div class="impact-number">300%</div>
+                        <div class="impact-label">Sales Growth at SixRock</div>
+                    </div>
+                    <div class="impact-stat">
+                        <div class="impact-number">10+</div>
+                        <div class="impact-label">Websites Built &amp; Optimized</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURED PROJECTS -->
+        <div class="panel glass" id="panel-1">
+            <div class="panel-header">
+                <div class="panel-indicator"></div>
+                <span class="panel-label">Featured Work &mdash; National Solutions Provider</span>
+                <span class="panel-count">current role</span>
+            </div>
+            <div class="panel-body">
+                <div class="comment">// Digital Marketing Strategist &mdash; January 2025 &ndash; Present</div>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-card-title">Site-Wide Product Page Rebuild</div>
+                        <div class="project-card-desc">Rebuilt all product page templates from the ground up using custom HTML, CSS, and JavaScript. Replaced legacy layouts with optimized, conversion-focused pages deployed across all digital properties.</div>
+                        <div class="tag-row">
+                            <span class="tag dev">HTML/CSS/JS</span>
+                            <span class="tag seo">SEO</span>
+                            <span class="tag seo">AEO</span>
+                            <span class="tag content">Copywriting</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-card-title">Interactive Nationwide Location Map</div>
+                        <div class="project-card-desc">Designed and built a custom interactive location map featuring pinned job locations to establish nationwide presence. Expanded prospective client inquiries into previously untapped regions including Arizona, New Mexico, and Colorado.</div>
+                        <div class="tag-row">
+                            <span class="tag dev">JavaScript</span>
+                            <span class="tag seo">Local SEO</span>
+                            <span class="tag campaign">Lead Generation</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-card-title">New Business Division &mdash; Full Website Build</div>
+                        <div class="project-card-desc">Sole developer for the company's new business division website. Collaborated with subject matter experts and department leadership to create compelling copy, keyword-optimized pages, and a cohesive digital presence from the ground up.</div>
+                        <div class="tag-row">
+                            <span class="tag dev">Full-Stack Dev</span>
+                            <span class="tag seo">Keyword Strategy</span>
+                            <span class="tag content">Technical Copy</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-card-title">State-Specific Landing Pages &amp; Case Studies</div>
+                        <div class="project-card-desc">Created localized landing pages for each state featuring project case studies with problem/solution narratives. Reinforced geographic SEO authority and drove regional lead generation.</div>
+                        <div class="tag-row">
+                            <span class="tag seo">Geographic SEO</span>
+                            <span class="tag content">Case Studies</span>
+                            <span class="tag campaign">Lead Gen</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-card-title">LinkedIn Video Marketing Campaign</div>
+                        <div class="project-card-desc">Partnered with company leadership to script, produce, and publish a video campaign on LinkedIn. Increased brand engagement and drove qualified traffic to the company website.</div>
+                        <div class="tag-row">
+                            <span class="tag campaign">Video Production</span>
+                            <span class="tag campaign">LinkedIn Strategy</span>
+                            <span class="tag content">Scripting</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-card-title">On-Location Video Case Studies</div>
+                        <div class="project-card-desc">Traveled to client sites to record video testimonials and produce written case studies demonstrating measurable impact on customer operations.</div>
+                        <div class="tag-row">
+                            <span class="tag campaign">Video Production</span>
+                            <span class="tag content">Copywriting</span>
+                            <span class="tag content">Client Relations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CLIENT WEB PROJECTS -->
+        <div class="panel glass" id="panel-2">
+            <div class="panel-header">
+                <div class="panel-indicator"></div>
+                <span class="panel-label">Client Web Projects</span>
+                <span class="panel-count">6 projects</span>
+            </div>
+            <div class="panel-body">
+                <div class="comment">// WordPress development, e-commerce, and SEO &mdash; StrataLink &amp; Freelance</div>
+                <table>
+                    <tr>
+                        <th>Project</th>
+                        <th>Description</th>
+                        <th>Stack</th>
+                        <th>Link</th>
+                    </tr>
+                    <tr>
+                        <td>SixRock Ammo</td>
+                        <td>Custom e-commerce solution with WooCommerce and deep SEO analytics integration</td>
+                        <td>WordPress, WooCommerce, PHP, Analytics</td>
+                        <td><a href="https://sixrockammo.com/" target="_blank" rel="noopener noreferrer">View &rarr;</a></td>
+                    </tr>
+                    <tr>
+                        <td>Gitter Vein</td>
+                        <td>Responsive site with online booking and email marketing integrations</td>
+                        <td>WordPress, Mailchimp, Analytics</td>
+                        <td><a href="https://gittervein.com/" target="_blank" rel="noopener noreferrer">View &rarr;</a></td>
+                    </tr>
+                    <tr>
+                        <td>Legendary Pools</td>
+                        <td>Platform with advanced SEO optimization and custom lead generation forms</td>
+                        <td>WordPress, Custom Forms, Analytics</td>
+                        <td><a href="https://legendarypoolsbr.com/" target="_blank" rel="noopener noreferrer">View &rarr;</a></td>
+                    </tr>
+                    <tr>
+                        <td>PureDerm NOLA</td>
+                        <td>Scalable solution with custom event calendar and automated booking</td>
+                        <td>WordPress, Booking System, Forms</td>
+                        <td><a href="https://puredermnola.com/" target="_blank" rel="noopener noreferrer">View &rarr;</a></td>
+                    </tr>
+                    <tr>
+                        <td>Max Blakesberg</td>
+                        <td>Custom platform with multimedia gallery and contact system</td>
+                        <td>WordPress, Gallery, Contact Forms</td>
+                        <td><a href="https://maxblakesberg.com/" target="_blank" rel="noopener noreferrer">View &rarr;</a></td>
+                    </tr>
+                    <tr>
+                        <td>Fight Supply Shop</td>
+                        <td>Site speed optimization, image caching, and analytics integration</td>
+                        <td>WordPress, Email Marketing, Multi-Vendor</td>
+                        <td><a href="https://shop.fightsupply.com/" target="_blank" rel="noopener noreferrer">View &rarr;</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SEO RESULTS -->
+        <div class="panel glass" id="panel-3">
+            <div class="panel-header">
+                <div class="panel-indicator"></div>
+                <span class="panel-label">SEO &amp; Performance Results</span>
+                <span class="panel-count">measurable outcomes</span>
+            </div>
+            <div class="panel-body">
+                <div class="comment">// Strategies deployed, results delivered</div>
+                <table>
+                    <tr>
+                        <th>Project</th>
+                        <th>Strategy</th>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>National Solutions Provider</td>
+                        <td>Interactive map build, state pages, AEO/SEO content optimization, product page rebuild</td>
+                        <td>Expanded client inquiries into new geographic regions; contributed to ~$1M marketing-attributed revenue</td>
+                    </tr>
+                    <tr>
+                        <td>Street Jitsu Justin</td>
+                        <td>Local SEO optimization, content strategy, technical improvements</td>
+                        <td>22% organic traffic increase</td>
+                    </tr>
+                    <tr>
+                        <td>SixRock Ammo</td>
+                        <td>Product page optimization, internal linking, speed optimization</td>
+                        <td>160% sales increase over 6 months</td>
+                    </tr>
+                    <tr>
+                        <td>80% Arms</td>
+                        <td>Product page optimization, blog content creation, SEO implementation</td>
+                        <td>7% user retention increase post-implementation</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- SKILLS -->
+        <div class="panel glass" id="panel-4">
+            <div class="panel-header">
+                <div class="panel-indicator"></div>
+                <span class="panel-label">Technical Skills &amp; Tools</span>
+            </div>
+            <div class="panel-body">
+                <div class="skills-grid">
+                    <div class="skill-group-title">Digital Strategy</div>
+                    <div class="skill-item">SEO / SEM</div>
+                    <div class="skill-item">AEO</div>
+                    <div class="skill-item">Content Strategy</div>
+                    <div class="skill-item">Paid Search &amp; Media</div>
+                    <div class="skill-item">Lead Generation</div>
+                    <div class="skill-item">Digital Campaign Execution</div>
+
+                    <div class="skill-group-title">Development</div>
+                    <div class="skill-item green-border">HTML / CSS / JavaScript</div>
+                    <div class="skill-item green-border">WordPress / Elementor</div>
+                    <div class="skill-item green-border">WooCommerce</div>
+                    <div class="skill-item green-border">Website Content Management</div>
+                    <div class="skill-item green-border">AI-Assisted Development</div>
+
+                    <div class="skill-group-title">Analytics &amp; Tools</div>
+                    <div class="skill-item purple-border">Google Analytics</div>
+                    <div class="skill-item purple-border">Google Search Console</div>
+                    <div class="skill-item purple-border">SEMrush</div>
+                    <div class="skill-item purple-border">HubSpot CRM</div>
+                    <div class="skill-item purple-border">Adobe Photoshop &amp; Illustrator</div>
+
+                    <div class="skill-group-title">Creative</div>
+                    <div class="skill-item orange-border">Copywriting</div>
+                    <div class="skill-item orange-border">Video Production</div>
+                    <div class="skill-item orange-border">Case Study Development</div>
+                    <div class="skill-item orange-border">Technical Writing</div>
+                    <div class="skill-item orange-border">Cross-Functional Collaboration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>&copy; 2026 Zach Jones &mdash; Built with clean code and good coffee.</p>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            var lines = document.querySelectorAll('.typed-line');
+            var bootScreen = document.getElementById('bootScreen');
+            var mainContent = document.getElementById('mainContent');
+            var header = document.getElementById('header');
+            var lineIndex = 0;
+
+            function typeLine(line, callback) {
+                var text = line.getAttribute('data-text');
+                var textEl = line.querySelector('.typed-text');
+                line.classList.add('active');
+
+                var cursor = document.createElement('span');
+                cursor.className = 'cursor';
+                line.appendChild(cursor);
+
+                var charIndex = 0;
+                var speed = lineIndex === 1 ? 55 : 25;
+
+                function typeChar() {
+                    if (charIndex < text.length) {
+                        textEl.textContent += text.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeChar, speed + Math.random() * 15);
+                    } else {
+                        line.classList.remove('active');
+                        line.classList.add('done');
+                        cursor.remove();
+                        setTimeout(callback, 120);
+                    }
+                }
+                typeChar();
+            }
+
+            function typeNext() {
+                if (lineIndex < lines.length) {
+                    typeLine(lines[lineIndex], function() {
+                        lineIndex++;
+                        typeNext();
+                    });
+                } else {
+                    // Typing done — fade out boot screen, reveal everything
+                    setTimeout(function() {
+                        bootScreen.classList.add('fade-out');
+
+                        setTimeout(function() {
+                            bootScreen.style.display = 'none';
+                            mainContent.classList.add('revealed');
+
+                            // Stagger each section popping in
+                            setTimeout(function() { header.classList.add('pop-in'); }, 100);
+
+                            var panels = document.querySelectorAll('.panel');
+                            panels.forEach(function(panel, i) {
+                                setTimeout(function() {
+                                    panel.classList.add('pop-in');
+                                }, 200 + (i * 120));
+                            });
+                        }, 800);
+                    }, 500);
+                }
+            }
+
+            setTimeout(typeNext, 300);
+        })();
+    </script>
 </body>
 </html>
