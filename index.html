@@ -155,6 +155,25 @@
             pointer-events: none;
         }
 
+        /* Skipping should feel immediate; the leisurely 0.8s is for the sequence
+           finishing on its own terms. */
+        .boot-screen.quick { transition-duration: 0.25s; }
+
+        .boot-skip {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 0; right: 0;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        .boot-skip.show { opacity: 1; }
+
         .boot-terminal {
             padding: 2rem;
             max-width: 760px;
@@ -699,6 +718,7 @@
             <span class="typed-line" data-text="Loading assets..."><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
             <span class="typed-line" data-text="Ready."><span class="prompt-char">&gt;</span><span class="typed-text"></span></span>
         </div>
+        <div class="boot-skip" id="bootSkip">click anywhere or press any key to skip</div>
     </div>
 
     <!-- MAIN CONTENT — hidden until boot completes -->
@@ -990,7 +1010,9 @@
             var bootScreen = document.getElementById('bootScreen');
             var mainContent = document.getElementById('mainContent');
             var header = document.getElementById('header');
+            var skipHint = document.getElementById('bootSkip');
             var lineIndex = 0;
+            var revealed = false;
 
             // Reduced motion: hand over the finished page and never start the
             // typing timers. The stylesheet has already hidden the boot screen
@@ -1000,6 +1022,7 @@
                 window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
             if (reduceMotion) {
+                revealed = true;
                 bootScreen.style.display = 'none';
                 mainContent.classList.add('revealed');
                 header.classList.add('pop-in');
@@ -1009,6 +1032,54 @@
                 );
                 return;
             }
+
+            // One way out of the boot screen, whether the typing finished or the
+            // visitor cut it short. `revealed` also stops typeChar rescheduling
+            // itself, so a skip does not leave timers running behind the page.
+            function reveal(quick) {
+                if (revealed) { return; }
+                revealed = true;
+
+                document.removeEventListener('keydown', onKey, true);
+                document.removeEventListener('mousedown', onPointer, true);
+                document.removeEventListener('touchstart', onPointer, true);
+
+                skipHint.classList.remove('show');
+                if (quick) { bootScreen.classList.add('quick'); }
+                bootScreen.classList.add('fade-out');
+
+                setTimeout(function() {
+                    bootScreen.style.display = 'none';
+                    mainContent.classList.add('revealed');
+
+                    // Stagger each section popping in
+                    setTimeout(function() { header.classList.add('pop-in'); }, 100);
+
+                    Array.prototype.forEach.call(
+                        document.querySelectorAll('.panel'),
+                        function(panel, i) {
+                            setTimeout(function() {
+                                panel.classList.add('pop-in');
+                            }, 200 + (i * 120));
+                        }
+                    );
+                }, quick ? 250 : 800);
+            }
+
+            function onKey(e) {
+                // A bare modifier is not an intent to skip. Everything else is,
+                // Tab included -- someone reaching for the page by keyboard wants
+                // the content, which is exactly what skipping gives them.
+                if (e.key === 'Shift' || e.key === 'Control' ||
+                    e.key === 'Alt' || e.key === 'Meta') { return; }
+                reveal(true);
+            }
+
+            function onPointer() { reveal(true); }
+
+            document.addEventListener('keydown', onKey, true);
+            document.addEventListener('mousedown', onPointer, true);
+            document.addEventListener('touchstart', onPointer, true);
 
             function typeLine(line, callback) {
                 var text = line.getAttribute('data-text');
@@ -1023,6 +1094,7 @@
                 var speed = lineIndex === 1 ? 55 : 25;
 
                 function typeChar() {
+                    if (revealed) { return; }
                     if (charIndex < text.length) {
                         textEl.textContent += text.charAt(charIndex);
                         charIndex++;
@@ -1044,29 +1116,18 @@
                         typeNext();
                     });
                 } else {
-                    // Typing done — fade out boot screen, reveal everything
-                    setTimeout(function() {
-                        bootScreen.classList.add('fade-out');
-
-                        setTimeout(function() {
-                            bootScreen.style.display = 'none';
-                            mainContent.classList.add('revealed');
-
-                            // Stagger each section popping in
-                            setTimeout(function() { header.classList.add('pop-in'); }, 100);
-
-                            var panels = document.querySelectorAll('.panel');
-                            panels.forEach(function(panel, i) {
-                                setTimeout(function() {
-                                    panel.classList.add('pop-in');
-                                }, 200 + (i * 120));
-                            });
-                        }, 800);
-                    }, 500);
+                    // Typing done — let the last line sit a beat, then reveal.
+                    // Wrapped rather than passed bare: setTimeout hands the callback
+                    // a lateness argument in some browsers, which would land in
+                    // `quick` and trigger the abrupt fade meant for a skip.
+                    setTimeout(function() { reveal(false); }, 500);
                 }
             }
 
             setTimeout(typeNext, 300);
+            setTimeout(function() {
+                if (!revealed) { skipHint.classList.add('show'); }
+            }, 1400);
         })();
     </script>
 </body>
