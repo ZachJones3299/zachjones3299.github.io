@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zljones.com/sitemap.xml
